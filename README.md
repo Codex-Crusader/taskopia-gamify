@@ -44,8 +44,3 @@ This project is built with .
 - React
 - shadcn-ui
 - Tailwind CSS
-
-## Additional Info on Project
-This project was made with the help of an AI called Lovable.
-**URL**: https://lovable.dev/projects/96d9de5f-8f2e-46ac-a5b2-39cdd76d162a
-
