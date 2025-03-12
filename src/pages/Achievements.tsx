@@ -4,7 +4,7 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 import { UserProgress, Reward, Task } from '@/types';
 import { generateInitialProgress } from '@/lib/gameLogic';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trophy, Medal, Star, Award, Crown, BadgeCheck, Target, Clock, Fire } from 'lucide-react';
+import { Trophy, Medal, Star, Award, Crown, BadgeCheck, Target, Clock, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
@@ -67,7 +67,7 @@ const AchievementsPage = () => {
       id: '2',
       title: 'High Achiever',
       description: 'Complete 5 high priority tasks',
-      icon: <Fire className="h-8 w-8 text-red-500" />,
+      icon: <Flame className="h-8 w-8 text-red-500" />,
       colorClass: 'from-red-500 to-orange-500',
       criteria: (tasks) => {
         const completedHighPriorityTasks = tasks.filter(task => task.completed && task.priority === 'high').length;
