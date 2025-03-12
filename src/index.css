@@ -92,6 +92,9 @@
 
   body {
     @apply bg-background text-foreground;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(var(--primary) / 0.03) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(var(--accent) / 0.03) 0px, transparent 50%);
   }
   
   html {
@@ -105,7 +108,7 @@
   }
   
   .reward-card {
-    @apply relative overflow-hidden rounded-xl p-6 bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-md border border-white/30 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.01];
+    @apply relative overflow-hidden rounded-xl p-6 backdrop-blur-md border border-white/30 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.01];
   }
   
   .task-card {
@@ -113,34 +116,87 @@
   }
   
   .task-priority-low {
-    @apply bg-gradient-to-br from-task-low/30 to-task-low/10;
+    @apply bg-gradient-to-br from-green-100 to-green-50 border-green-200;
   }
   
   .task-priority-medium {
-    @apply bg-gradient-to-br from-task-medium/30 to-task-medium/10;
+    @apply bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-200;
   }
   
   .task-priority-high {
-    @apply bg-gradient-to-br from-task-high/30 to-task-high/10;
+    @apply bg-gradient-to-br from-red-100 to-red-50 border-red-200;
   }
   
   .task-complete {
-    @apply bg-gradient-to-br from-task-complete/30 to-task-complete/10;
+    @apply bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200;
   }
   
   .progress-bg {
-    @apply h-2 w-full rounded-full bg-secondary overflow-hidden;
+    @apply h-2.5 w-full rounded-full bg-secondary overflow-hidden;
   }
   
   .progress-bar {
-    @apply h-full rounded-full bg-gradient-to-r from-primary to-level transition-all duration-1000 ease-in-out;
+    @apply h-full rounded-full bg-gradient-to-r from-primary to-purple-400 transition-all duration-1000 ease-in-out;
   }
   
   .level-badge {
-    @apply flex items-center justify-center rounded-full bg-level text-level-foreground font-semibold shadow-md;
+    @apply flex items-center justify-center rounded-full text-white font-semibold shadow-md;
   }
 
   .page-transition {
     @apply animate-fade-in;
   }
+  
+  /* Trophy and achievement styles */
+  .trophy-glow {
+    @apply relative;
+  }
+  
+  .trophy-glow::after {
+    @apply content-[''] absolute top-0 left-0 right-0 bottom-0 bg-yellow-400/20 blur-md rounded-full -z-10;
+  }
+  
+  .achievement-card {
+    @apply bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm border border-white/30 rounded-lg p-4 transition-all duration-300 hover:shadow-md hover:scale-[1.01];
+  }
+}
+
+/* Enhanced animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(147, 51, 234, 0.7));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.3));
+  }
+}
+
+@keyframes pulse-shadow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(147, 51, 234, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.2);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.animate-pulse-shadow {
+  animation: pulse-shadow 2s ease-in-out infinite;
 }

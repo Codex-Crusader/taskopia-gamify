@@ -7,9 +7,10 @@ import { useToast } from '@/hooks/use-toast';
 import TaskCard from '@/components/TaskCard';
 import RewardBadge from '@/components/RewardBadge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, Award, TrendingUp, Calendar } from 'lucide-react';
+import { CheckCircle, Award, TrendingUp, Calendar, Trophy, Star, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const STORAGE_KEY = 'tasklevels-data';
 
@@ -18,12 +19,12 @@ const saveData = (progress: UserProgress, tasks: Task[], rewards: Reward[]) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ progress, tasks, rewards }));
 };
 
-// Initial rewards
+// Initial rewards with enhanced descriptions
 const initialRewards: Reward[] = [
   {
     id: '1',
     title: 'Task Master',
-    description: 'Complete your first 5 tasks',
+    description: 'Complete your first 5 tasks and start your productivity journey!',
     image: '',
     requiredLevel: 1,
     unlocked: false,
@@ -31,7 +32,7 @@ const initialRewards: Reward[] = [
   {
     id: '2',
     title: 'Rising Star',
-    description: 'Reach Level 2 for the first time',
+    description: 'Reach Level 2 and prove your commitment to growth!',
     image: '',
     requiredLevel: 2,
     unlocked: false,
@@ -39,7 +40,7 @@ const initialRewards: Reward[] = [
   {
     id: '3',
     title: 'Productivity Pro',
-    description: 'Complete 3 high priority tasks',
+    description: 'Complete 3 high priority tasks and master difficult challenges!',
     image: '',
     requiredLevel: 3,
     unlocked: false,
@@ -47,11 +48,34 @@ const initialRewards: Reward[] = [
   {
     id: '4',
     title: 'Consistency King',
-    description: 'Maintain a 5-day streak',
+    description: 'Maintain a 5-day streak and build lasting habits!',
     image: '',
     requiredLevel: 5,
     unlocked: false,
   },
+  {
+    id: '5',
+    title: 'Goal Crusher',
+    description: 'Complete 10 tasks in a single week!',
+    image: '',
+    requiredLevel: 4,
+    unlocked: false,
+  },
+  {
+    id: '6',
+    title: 'Productivity Legend',
+    description: 'Reach Level 10 and achieve productivity mastery!',
+    image: '',
+    requiredLevel: 10,
+    unlocked: false,
+  },
+];
+
+// Achievement types to track different accomplishments
+const achievementTypes = [
+  { type: 'tasks_completed', label: 'Tasks Completed', icon: <CheckCircle className="h-5 w-5 text-green-500" /> },
+  { type: 'level_reached', label: 'Level Reached', icon: <Star className="h-5 w-5 text-yellow-500" /> },
+  { type: 'rewards_unlocked', label: 'Rewards Unlocked', icon: <Trophy className="h-5 w-5 text-reward" /> },
 ];
 
 const Dashboard = () => {
@@ -151,18 +175,51 @@ const Dashboard = () => {
     .filter(reward => progress.level >= reward.requiredLevel)
     .slice(0, 2);
   
+  // Get all unlocked rewards count for achievements
+  const unlockedRewardsCount = rewards.filter(reward => 
+    progress.level >= reward.requiredLevel
+  ).length;
+  
+  // Get completed tasks count
+  const completedTasksCount = tasks.filter(task => task.completed).length;
+  
+  // Calculate achievements stats
+  const achievementStats = [
+    { 
+      type: 'tasks_completed', 
+      current: completedTasksCount,
+      total: 50,
+      percentage: Math.min(Math.round((completedTasksCount / 50) * 100), 100)
+    },
+    { 
+      type: 'level_reached', 
+      current: progress.level,
+      total: 10,
+      percentage: Math.min(Math.round((progress.level / 10) * 100), 100)
+    },
+    { 
+      type: 'rewards_unlocked', 
+      current: unlockedRewardsCount,
+      total: rewards.length,
+      percentage: Math.min(Math.round((unlockedRewardsCount / rewards.length) * 100), 100)
+    },
+  ];
+  
   return (
     <DashboardLayout progress={progress}>
       <div className="page-transition space-y-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome to TaskLevels</h1>
+          <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
+            <Sparkles className="h-8 w-8 text-yellow-500 animate-pulse-soft" />
+            Welcome to TaskLevels
+          </h1>
           <p className="text-muted-foreground">
-            Complete tasks, earn points, and level up!
+            Complete tasks, earn points, and level up your productivity!
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
+          <Card className="border-l-4 border-l-primary shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-primary" />
@@ -173,7 +230,7 @@ const Dashboard = () => {
             <CardContent>
               {incompleteTasks.length > 0 ? (
                 <div className="space-y-4">
-                  {incompleteTasks.map(task => (
+                  {incompleteTasks.map((task, index) => (
                     <TaskCard
                       key={task.id}
                       task={task}
@@ -202,7 +259,7 @@ const Dashboard = () => {
           </Card>
           
           <div className="space-y-6">
-            <Card>
+            <Card className="border-l-4 border-l-reward shadow-md hover:shadow-lg transition-all duration-300">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2">
                   <Award className="h-5 w-5 text-reward" />
@@ -242,10 +299,10 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="border-l-4 border-l-green-500 shadow-md hover:shadow-lg transition-all duration-300">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-primary" />
+                  <TrendingUp className="h-5 w-5 text-green-500" />
                   Recent Activity
                 </CardTitle>
                 <CardDescription>Recently completed tasks</CardDescription>
@@ -256,7 +313,7 @@ const Dashboard = () => {
                     {recentlyCompletedTasks.map(task => (
                       <div 
                         key={task.id} 
-                        className="flex items-center p-3 rounded-lg bg-secondary/50"
+                        className="flex items-center p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors"
                       >
                         <CheckCircle className="h-5 w-5 text-primary mr-3" />
                         <div>
@@ -277,6 +334,52 @@ const Dashboard = () => {
             </Card>
           </div>
         </div>
+        
+        {/* New Achievement Trophy Section */}
+        <Card className="border-l-4 border-l-yellow-500 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-yellow-500" />
+              Achievement Trophies
+            </CardTitle>
+            <CardDescription>Track your progress across different achievements</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {achievementStats.map((achievement, index) => {
+                const achievementType = achievementTypes.find(at => at.type === achievement.type);
+                
+                return (
+                  <div 
+                    key={achievement.type}
+                    className="bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-md rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      {achievementType?.icon}
+                      <h3 className="font-medium">{achievementType?.label}</h3>
+                    </div>
+                    
+                    <div className="flex justify-between items-center text-sm mb-2">
+                      <span>{achievement.current}</span>
+                      <span className="text-muted-foreground">/ {achievement.total}</span>
+                    </div>
+                    
+                    <div className="w-full bg-secondary rounded-full h-2.5">
+                      <div
+                        className="bg-gradient-to-r from-yellow-300 to-yellow-500 h-2.5 rounded-full"
+                        style={{ width: `${achievement.percentage}%` }}
+                      ></div>
+                    </div>
+                    
+                    <p className="text-xs text-center mt-2 text-muted-foreground">
+                      {achievement.percentage}% Complete
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </DashboardLayout>
   );
