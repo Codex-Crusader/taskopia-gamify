@@ -78,6 +78,21 @@ export default {
 					high: '#FC8181',
 					complete: '#9B87F5'
 				},
+				// Additional vibrant colors
+				vibrant: {
+					purple: '#8B5CF6',
+					pink: '#EC4899',
+					blue: '#3B82F6',
+					green: '#10B981',
+					yellow: '#F59E0B',
+					red: '#EF4444',
+					orange: '#F97316',
+					teal: '#14B8A6'
+				},
+				// Added for dark mode compatibility
+				brown: {
+					500: '#A17A74',
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -175,6 +190,14 @@ export default {
 						transform: 'rotate(360deg)'
 					}
 				},
+				'glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 5px rgba(139, 92, 246, 0.5)'
+					},
+					'50%': {
+						boxShadow: '0 0 20px rgba(139, 92, 246, 0.8)'
+					}
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -187,6 +210,7 @@ export default {
 				'slide-down': 'slide-down 0.5s ease-out',
 				'bounce-light': 'bounce-light 2s ease-in-out infinite',
 				'spin-slow': 'spin-slow 8s linear infinite',
+				'glow': 'glow 2s ease-in-out infinite',
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient.stops))',

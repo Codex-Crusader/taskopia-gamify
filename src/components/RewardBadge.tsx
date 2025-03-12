@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Reward } from '@/types';
-import { Lock, Unlock, Trophy, Award, Star } from 'lucide-react';
+import { Lock, Unlock, Trophy, Award, Star, Medal, Crown, FlameIcon, Sparkles, Lightbulb } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 interface RewardBadgeProps {
   reward: Reward;
@@ -12,28 +13,51 @@ interface RewardBadgeProps {
 const RewardBadge: React.FC<RewardBadgeProps> = ({ reward, userLevel }) => {
   const isAvailable = userLevel >= reward.requiredLevel;
   
-  // Generate gradients based on reward type or ID for visual diversity
+  // Enhanced gradients based on reward type or ID for visual diversity
   const gradientClasses = [
-    'from-orange-300 to-orange-100',
-    'from-purple-300 to-purple-100',
-    'from-blue-300 to-blue-100',
-    'from-green-300 to-green-100',
-    'from-pink-300 to-pink-100'
+    'from-orange-300 to-yellow-100',
+    'from-purple-400 to-pink-200',
+    'from-blue-400 to-cyan-200',
+    'from-green-400 to-emerald-200',
+    'from-pink-400 to-rose-200',
+    'from-indigo-400 to-blue-200',
+    'from-amber-400 to-yellow-200',
+    'from-teal-400 to-cyan-200',
+    'from-fuchsia-400 to-pink-200',
+    'from-lime-400 to-green-200',
   ];
   
   const gradientClass = gradientClasses[parseInt(reward.id) % gradientClasses.length];
   
+  // Choose an icon based on the reward's ID or level requirement
+  const getRewardIcon = () => {
+    const icons = [
+      <Trophy className="h-12 w-12 text-amber-500" />,
+      <Award className="h-12 w-12 text-indigo-500" />,
+      <Star className="h-12 w-12 text-yellow-500" />,
+      <Medal className="h-12 w-12 text-red-500" />,
+      <Crown className="h-12 w-12 text-amber-600" />,
+      <FlameIcon className="h-12 w-12 text-orange-500" />,
+      <Sparkles className="h-12 w-12 text-yellow-400" />,
+      <Lightbulb className="h-12 w-12 text-amber-400" />
+    ];
+    return icons[parseInt(reward.id) % icons.length];
+  };
+  
   return (
-    <div 
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: parseInt(reward.id) * 0.1 }}
       className={cn(
         'reward-card bg-gradient-to-br', 
         gradientClass,
-        isAvailable ? 'animate-scale-in' : 'opacity-70'
+        isAvailable ? 'animate-scale-in shadow-lg' : 'opacity-70'
       )}
     >
       <div className="absolute top-3 right-3">
         {isAvailable ? (
-          <Unlock className="h-5 w-5 text-green-500" />
+          <Unlock className="h-5 w-5 text-green-600" />
         ) : (
           <Lock className="h-5 w-5 text-muted-foreground" />
         )}
@@ -48,14 +72,8 @@ const RewardBadge: React.FC<RewardBadgeProps> = ({ reward, userLevel }) => {
             className="w-full h-full object-cover relative z-10"
           />
         ) : (
-          <div className="flex items-center justify-center h-full w-full text-primary relative z-10">
-            {reward.requiredLevel <= 2 ? (
-              <Trophy className="h-12 w-12 text-reward" />
-            ) : reward.requiredLevel <= 4 ? (
-              <Award className="h-12 w-12 text-reward" />
-            ) : (
-              <Star className="h-12 w-12 text-reward" />
-            )}
+          <div className="flex items-center justify-center h-full w-full relative z-10">
+            {getRewardIcon()}
           </div>
         )}
       </div>
@@ -79,7 +97,7 @@ const RewardBadge: React.FC<RewardBadgeProps> = ({ reward, userLevel }) => {
           </span>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
