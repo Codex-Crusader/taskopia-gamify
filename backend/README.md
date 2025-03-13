@@ -1,26 +1,29 @@
 
-# Simple TaskLevels Backend
+# Simple Task Manager Backend
 
-This is a basic Flask API for storing and retrieving task data.
+This is a very simple backend for the TaskLevels application using Flask.
 
-## Setup
+## What is this?
 
-1. Install Python 3.7+
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the server: `python app.py`
+This is a simple server that saves your tasks, progress, and rewards to a file on the server instead of in your browser. This means your data will be saved even if you clear your browser data!
 
-The server will run at http://localhost:5000
+## How to run it
 
-## API Endpoints
+1. Make sure you have Python installed on your computer
+2. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Run the server:
+   ```
+   python app.py
+   ```
+4. The server will start at http://localhost:5000
 
-- `GET /api/data` - Get all data
-- `POST /api/data` - Save all data
-- `GET /api/tasks` - Get all tasks
-- `POST /api/tasks` - Add a new task
-- `DELETE /api/tasks/<task_id>` - Delete a task
-- `GET /api/progress` - Get user progress
-- `PUT /api/progress` - Update user progress
+## How it works
 
-## Data Storage
+- When you add a task, complete a task, or earn a reward, the data is sent to this server
+- The server saves all data in a file called `data.json`
+- When you load the app, it gets the saved data from this server
 
-All data is stored in a simple JSON file (`data.json`).
+That's it! Very simple, but effective for learning purposes.
