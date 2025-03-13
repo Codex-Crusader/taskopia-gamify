@@ -1,36 +1,26 @@
 
-# TaskLevels Backend API
+# Simple TaskLevels Backend
 
-This is a Flask-based backend API for the TaskLevels gamified productivity application.
+This is a basic Flask API for storing and retrieving task data.
 
 ## Setup
 
-1. Make sure you have Python 3.7+ installed
+1. Install Python 3.7+
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the server: `python app.py`
 
-The server will start on http://localhost:5000
+The server will run at http://localhost:5000
 
 ## API Endpoints
 
-### Data
-- `GET /api/data` - Get all user data
-- `POST /api/data` - Update all user data
-
-### Tasks
+- `GET /api/data` - Get all data
+- `POST /api/data` - Save all data
 - `GET /api/tasks` - Get all tasks
-- `POST /api/tasks` - Create a new task
-- `PUT /api/tasks/<task_id>` - Update a task
+- `POST /api/tasks` - Add a new task
 - `DELETE /api/tasks/<task_id>` - Delete a task
-
-### Progress
 - `GET /api/progress` - Get user progress
 - `PUT /api/progress` - Update user progress
 
-### Rewards
-- `GET /api/rewards` - Get all rewards
-- `PUT /api/rewards/<reward_id>` - Update a reward status
+## Data Storage
 
-## Data Structure
-
-All data is stored in a JSON file (`data.json`).
+All data is stored in a simple JSON file (`data.json`).
