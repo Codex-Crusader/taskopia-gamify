@@ -1,29 +1,27 @@
 
-# Simple Task Manager Backend
+# Super Simple Task Manager Backend
 
-This is a very simple backend for the TaskLevels application using Flask.
+This is a very basic backend for saving your tasks. It's designed to be as simple as possible for beginners!
 
-## What is this?
+## What does it do?
 
-This is a simple server that saves your tasks, progress, and rewards to a file on the server instead of in your browser. This means your data will be saved even if you clear your browser data!
+This little server saves your tasks in a file on the computer. When you add or delete tasks in the app, this server keeps track of them.
 
 ## How to run it
 
-1. Make sure you have Python installed on your computer
-2. Install the required packages:
+1. Make sure you have Python installed
+2. Install what you need:
    ```
-   pip install -r requirements.txt
+   pip install flask flask-cors
    ```
-3. Run the server:
+3. Start the server:
    ```
    python app.py
    ```
-4. The server will start at http://localhost:5000
+4. The server will run at http://localhost:5000
 
 ## How it works
 
-- When you add a task, complete a task, or earn a reward, the data is sent to this server
-- The server saves all data in a file called `data.json`
-- When you load the app, it gets the saved data from this server
-
-That's it! Very simple, but effective for learning purposes.
+- The server creates a file called `data.json` to store your tasks
+- When you add or delete tasks, it updates this file
+- Very simple!

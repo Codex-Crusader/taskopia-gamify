@@ -4,33 +4,30 @@ from flask_cors import CORS
 import json
 import os
 
-# Create Flask application
+# Make a new web application
 app = Flask(__name__)
-# Allow requests from any origin (for development)
+# Allow our frontend to talk to this backend
 CORS(app)
 
-# File to store our data
+# Where we'll save our data
 DATA_FILE = 'data.json'
 
-# ---- Simple data access functions ----
-
-# Load data from file
+# Function to read data from our file
 def load_data():
-    # If the file exists, read it
+    # Check if our data file exists
     if os.path.exists(DATA_FILE):
+        # If it does, read it
         with open(DATA_FILE, 'r') as f:
             return json.load(f)
-    # Otherwise return empty data structure
-    return {"tasks": [], "progress": {"level": 1, "xp": 0}, "rewards": []}
+    # If file doesn't exist, start with empty data
+    return {"tasks": []}
 
-# Save data to file
+# Function to save data to our file
 def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f)
 
-# ---- Routes (endpoints) ----
-
-# Get all data at once
+# Get all tasks
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
     data = load_data()
@@ -39,50 +36,30 @@ def get_tasks():
 # Add a new task
 @app.route('/api/tasks', methods=['POST'])
 def add_task():
+    # Get the task data from the request
     task = request.json
+    # Load existing data
     data = load_data()
+    # Add the new task
     data["tasks"].append(task)
+    # Save the updated data
     save_data(data)
+    # Return the new task
     return jsonify(task)
 
 # Delete a task
 @app.route('/api/tasks/<task_id>', methods=['DELETE'])
 def delete_task(task_id):
+    # Load existing data
     data = load_data()
+    # Remove the task with the given id
     data["tasks"] = [task for task in data["tasks"] if task["id"] != task_id]
+    # Save the updated data
     save_data(data)
+    # Return a success message
     return jsonify({"message": "Task deleted"})
 
-# Get user progress
-@app.route('/api/progress', methods=['GET'])
-def get_progress():
-    data = load_data()
-    return jsonify(data.get("progress", {"level": 1, "xp": 0}))
-
-# Update user progress
-@app.route('/api/progress', methods=['PUT'])
-def update_progress():
-    progress = request.json
-    data = load_data()
-    data["progress"] = progress
-    save_data(data)
-    return jsonify(progress)
-
-# Get all rewards
-@app.route('/api/rewards', methods=['GET'])
-def get_rewards():
-    data = load_data()
-    return jsonify(data.get("rewards", []))
-
-# Update rewards
-@app.route('/api/rewards', methods=['PUT'])
-def update_rewards():
-    rewards = request.json
-    data = load_data()
-    data["rewards"] = rewards
-    save_data(data)
-    return jsonify(rewards)
-
-# Start the server when this file is run directly
+# Start the server when this file is run
 if __name__ == '__main__':
+    # Run in debug mode so we can see errors
     app.run(debug=True, port=5000)
