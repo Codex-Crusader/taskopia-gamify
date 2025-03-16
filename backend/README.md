@@ -1,27 +1,46 @@
 
 # Super Simple Task Manager Backend
 
-This is a very basic backend for saving your tasks. It's designed to be as simple as possible for beginners!
+This is a very basic task manager that uses simple Python classes. It's designed to be easy to understand for beginners!
 
 ## What does it do?
 
-This little server saves your tasks in a file on the computer. When you add or delete tasks in the app, this server keeps track of them.
+This code shows how to:
+- Create classes in Python
+- Use inheritance
+- Save data to files
+- Load data from files
+
+## How the code works
+
+1. We have a base class called `Saveable` that defines common methods
+2. The `Task` class represents a single task with properties like title and description
+3. The `TaskManager` class handles all tasks and saving/loading from a file
 
 ## How to run it
 
 1. Make sure you have Python installed
-2. Install what you need:
-   ```
-   pip install flask flask-cors
-   ```
-3. Start the server:
+2. Run the example:
    ```
    python app.py
    ```
-4. The server will run at http://localhost:5000
+3. It will create a file called `tasks.json` with your tasks
 
-## How it works
+## How to use it in your code
 
-- The server creates a file called `data.json` to store your tasks
-- When you add or delete tasks, it updates this file
-- Very simple!
+```python
+# Create the task manager
+manager = TaskManager()
+
+# Add a task
+new_task = Task("1", "Learn Python", "Study Python basics", "high")
+manager.add_task(new_task)
+
+# Get all tasks
+all_tasks = manager.get_all_tasks()
+
+# Delete a task
+manager.delete_task("1")
+```
+
+That's it! Super simple task management with no API or web server.
